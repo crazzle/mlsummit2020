@@ -1,0 +1,22 @@
+version: '3.7'
+services:
+  workshop:
+    build: .
+    ports:
+      - 8888:8888
+    volumes:
+      - type: bind
+        source: ./notebooks
+        target: /mlessentials/notebooks
+        
+  serving:
+    image: "tensorflow/serving:2.1.0"
+    ports:
+      - 8500:8500
+      - 8501:8501
+    volumes:
+      - type: bind
+        source: ./notebooks/04-models/iris/
+        target: /models/iris
+    environment:
+      MODEL_NAME: iris
